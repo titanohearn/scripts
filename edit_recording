@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# ffmpeg editing process for my recordings: combining a phone video with a screen recording and a separate audio recording
+
 # Crop, horizontal flip, remove audio
 ffmpeg -i IMG*.MOV -vf "crop=iw*0.7:ih*0.93:x=iw*0.03:y=ih*0.05,hflip" -an cam.MOV
 
