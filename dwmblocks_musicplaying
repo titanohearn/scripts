@@ -5,8 +5,8 @@ pidof -x playerctl-loop >/dev/null 2>&1 || playerctl-loop >/dev/null 2>&1 &
 music=termusic
 browser=firefox
 
-browserstatus=$(playerctl --player=$browser status)
-musicstatus=$(playerctl --player=$music status)
+browserstatus=$(2>/dev/null playerctl --player=$browser status)
+musicstatus=$(2>/dev/null playerctl --player=$music status)
 
 [[ $musicstatus == "Playing" ]] && icon="🎵 " || icon="❚❚ "
 
