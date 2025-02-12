@@ -37,3 +37,6 @@ esac
 
 # Send to bar
 echo "$ICON$INFO"
+
+# Can set this script to refresh on a timer in dwmblocks blocks.h
+# If you want this to cycle through visible disks on that timer, remove the (INDEX + 1) out of the case BLOCK_BUTTON and add it to the end of the script instead
