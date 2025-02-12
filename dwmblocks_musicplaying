@@ -2,35 +2,39 @@
 
 pidof -x playerctl-loop >/dev/null 2>&1 || playerctl-loop >/dev/null 2>&1 &
 
-music=termusic
-browser=firefox
+MUSIC=termusic
+BROWSER=firefox
 
-browserstatus=$(2>/dev/null playerctl --player=$browser status)
-musicstatus=$(2>/dev/null playerctl --player=$music status)
+BROWSER_STATUS=$(2>/dev/null playerctl --player=$BROWSER status)
+MUSIC_STATUS=$(2>/dev/null playerctl --player=$MUSIC status)
 
-[[ $musicstatus == "Playing" ]] && icon="🎵 " || icon="❚❚ "
+[[ $MUSIC_STATUS == "Playing" ]] && ICON="🎵 " || ICON="❚❚ "
 
-if [[ $browserstatus == "Playing" ]]; then
-    player=$browser
-    icon=" 🦊 "
-    format=$(playerctl metadata --player=$player --format '{{ trunc(title,25) }}')
+if [[ $BROWSER_STATUS == "Playing" ]]; then
+    PLAYER=$BROWSER
+    ICON="🦊 "
+    NORMAL=$(playerctl metadata --player=$PLAYER --format '{{ trunc(title,25) }}')
+    ALTERNATE=$(playerctl metadata --player=$PLAYER --format '{{ trunc(artist,17) }} - {{ trunc(title,17) }}')
 else
-    player=$music
-    format=$(playerctl metadata --player=$player --format '{{ trunc(artist,17) }} - {{ trunc(title,17) }}')
+    PLAYER=$MUSIC
+    NORMAL=$(playerctl metadata --player=$PLAYER --format '{{ trunc(artist,17) }} - {{ trunc(title,17) }}')
+    ALTERNATE=$(playerctl metadata --player=$PLAYER --format '{{ trunc(album,17) }} - {{ trunc(title,17) }}')
 fi
 
-# Clicking on bar (requires statuscmd patch; https://dwm.suckless.org/patches/statuscmd/)
+FORMAT_FILE="/tmp/dwmblocks_mus_format"
+[ ! -f "$FORMAT_FILE" ] && echo "0" > "$FORMAT_FILE"
+
+read FORMAT < "$FORMAT_FILE"
+
 case $BLOCK_BUTTON in
-  1) $player ;;
-  2) playerctl --player=$player play-pause; pkill -RTMIN+11 "${STATUSBAR:-dwmblocks}" ;;
-  3) setsid -w -f "$TERMINAL" -e pulsemixer; pkill -RTMIN+11 "${STATUSBAR:-dwmblocks}" ;;
-  4) playerctl --player=$player volume 0.05+ ;;
-  5) playerctl --player=$player volume 0.05- ;;
-  6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
+		1) echo "$(( ($FORMAT + 1) % 2 ))" > "$FORMAT_FILE" ;;
+		2) playerctl --player=$PLAYER play-pause; pkill -RTMIN+11 "${STATUSBAR:-dwmblocks}" ;;
+		3) setsid -w -f "$TERMINAL" -e pulsemixer; pkill -RTMIN+11 "${STATUSBAR:-dwmblocks}" ;;
+		4) playerctl --player=$PLAYER volume 0.05+ ;;
+		5) playerctl --player=$PLAYER volume 0.05- ;;
+		6) setsid -f "$TERMINAL" -e "$EDITOR" "$0" ;;
 esac
 
-echo -e "$icon$format"
+[ "$FORMAT" -eq 0 ] && INFO="$NORMAL" || INFO="$ALTERNATE"
 
-# If you want responsive updates from dwmblocks, put these in a separate script
-# playerctl -p termusic metadata title >/dev/null && kill -45 "$(pidof "${STATUSBAR:-dwmblocks}")" || break
-# playerctl -p firefox metadata title > /dev/null >/dev/null && kill -45 "$(pidof "${STATUSBAR:-dwmblocks}")" || break
+echo -e "$ICON$INFO"
