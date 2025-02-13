@@ -34,7 +34,7 @@ if command -v nvidia-smi >/dev/null 2>&1; then
     GPU_TEMP=$(nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader)
 else
     # AMD GPU
-	GPU_TEMP=$(sensors | awk '/^edge|^junction/ {gsub(/\+/,""); gsub(/\..*/,"",$2); print $2}')
+    GPU_TEMP=$(sensors | awk '/^edge|^junction/ {gsub(/\+/,""); gsub(/\..*/,"",$2); print $2}')
 fi
 
 [ -z "$GPU_TEMP" ] && GPU_TEMP="N/A"
