@@ -21,7 +21,7 @@ case $GPU_TEMP in
 esac
 
 # Send to bar
-echo "$GPUW_WARN$CPU_WARN  "$CPU_TEMP  $MEM_USE"g"
+echo "$GPU_WARN$CPU_WARN  "$CPU_TEMP  $MEM_USE"g"
 
 # Clicking on bar
 case $BLOCK_BUTTON in
