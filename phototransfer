@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+folder=~/
+
+mount() { # Check if the card is mounted
+		[ -d /mnt/sdcard/DCIM/ ] || dunstify "Card not mounted."
+}
+
+
+unmount() { # Unmount card
+		sudo systemd-mount --unmount /mnt/sdcard && dunstify "Card unmounted."
+}
+
+
+dt() { # Open darktable to import today's photos
+		sudo systemd-mount --unmount /mnt/sdcard && dunstify "Card unmounted; opening Darktable"
+		(darktable "$folder$(date '+%b_%d')") &
+}
+
+
+postrun() { # Menu to select what I want to do after photos have been transferred
+		dunstify "Photos have transferred."
+		choice=$(printf "Unmount card\\nOpen Darktable, unmount\\nDo nothing" | dmenu -c -l 3 -i -p "Photos have transferred: ")
+		case "$choice" in
+				Unmount*) unmount;;
+				Open*) dt;;
+				Do*) exit 0;;
+		esac
+}
+
+
+auto() { # Transfer photos from SD card into a directory for today's date
+		[ -d /mnt/sdcard/DCIM/ ] || exit 0
+		dunstify "Photo transfer starting..."
+
+		mkdir -p "$folder$(date '+%b_%d')"
+		find /mnt/sdcard -type f -name "*.CR2" -exec mv -nv {} "$folder$(date '+%b_%d')/" \; && postrun
+}
+
+
+case "$1" in
+		mount) mount ;;
+		unmount) unmount ;;
+		dt) dt ;;
+		*) auto ;;
+esac
