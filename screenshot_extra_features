@@ -12,10 +12,12 @@ colorpicker () { # click a pixel OR draw a selection for average color, returned
 TMP="/tmp/color.png"
 
 # slop's tolerance flag controls how far mouse can be move before being detected as a click and drag
-import -window root -crop "$(slop --tolerance=0 || exit 0)" "$TMP"
-
-# hacksaw doesn't seem to allow for 1x1 selection but this could be used for area selection
-# import -window root -crop "$(hacksaw -g 0 || exit 0)" "$TMP"
+# would recommend use of slop as it allows for 1x1 selection
+if command -v slop >/dev/null; then 
+		import -window root -crop "$(slop --tolerance=0 || exit 0)" "$TMP"
+else 
+		import "$TMP"
+fi
 
 HEX=$(magick "$TMP" -scale 1x1\! -format "#%[hex:p{0,0}]" info:) # SRGB: '%[pixel:p{0,0}]'
 
