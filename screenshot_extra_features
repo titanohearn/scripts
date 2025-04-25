@@ -48,7 +48,7 @@ post () { # copy image to clip & send a notification
 
 
 case "$1" in
-		color) colorpicker ;;
+		color*) colorpicker ;;
 		full) full ;;
 		window) window ;;
 		*) selection ;;
