@@ -27,17 +27,17 @@ rm "$TMP"
 }
 
 
-full () { # the full screen incl. both monitors
+full () { # full screen incl. all monitors
 		import -window root "$FILE" && post
 }
 
 
-window () { # current window
+window () { # focused window
 		import -window "$(xdotool getwindowfocus -f)" "$FILE"
 }
 
 
-selection () { # click a window to select it, or draw a selection
+selection () { # draw a selection, or click to select a window
 		import "$FILE" && post
 }
 
