@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# need to clean up some stuff with this, esp with relation to cleanly exiting
+
+timer () {
+while [ $TOTAL_SECONDS -gt 0 ]; do
+    MIN=$(printf "%02d" $((TOTAL_SECONDS / 60)))
+    SEC=$(printf "%02d" $((TOTAL_SECONDS % 60)))
+    echo "  $MIN $SEC " > /tmp/timericon;
+    pkill -RTMIN+3 dwmblocks;
+    trap cleanup 1 2 3 6 15
+    sleep 1
+    ((TOTAL_SECONDS--))
+done
+
+
+echo "" > /tmp/timericon;
+pkill -RTMIN+3 dwmblocks;
+notify-send "Timer ended, take a break"
+}
+
+
+menu () {
+		MINUTES="$(echo "" | dmenu -c -p "Minutes: " <&-)" || exit 0
+		TOTAL_SECONDS=$((MINUTES * 60))
+		timer
+}
+
+cleanup() {
+		echo "" > /tmp/timericon;
+		pkill -RTMIN+3 dwmblocks;
+		exit 0
+}
+
+case "$#" in
+		0) menu ;;
+		1) notify-send "Killing timer..." & kill -TERM $(pgrep -f ~/.local/bin/statusbar/status-timer) ;;
+e
