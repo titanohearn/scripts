@@ -1,3 +1,22 @@
 #!/bin/sh
 
-pactl set-default-sink "$(pactl list short sinks | awk '{print $2}' | dmenu -i -l 5 -c -p "Output:")" && notify-send "Audio switched!" || exit 0
+# Create a list of sinks with pretty names
+sinks=$(pactl list short sinks)
+options=$(echo "$sinks" | while read -r line; do
+    name=$(echo "$line" | awk '{print $2}')
+    description=$(pactl list sinks | grep -A 20 "$name" | grep "Description:" | head -n1 | cut -d ':' -f2- | sed 's/^ //')
+    echo "$description|||$name"
+done)
+
+# Let the user select a description
+selection=$(echo "$options" | cut -d '|' -f1 | dmenu -i -l 5 -c -p "Output:")
+
+# Extract the corresponding sink name
+sink_name=$(echo "$options" | grep "^$selection" | cut -d '|' -f4)
+
+# Set the selected sink as default
+if [ -n "$sink_name" ]; then
+    pactl set-default-sink "$sink_name" && notify-send "Audio switched to: $selection"
+else
+    notify-send "Audio switch failed"
+fi
