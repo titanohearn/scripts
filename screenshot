@@ -16,20 +16,13 @@ else
     exit 1
 fi
 
-# Take screenshot 
-if [[ "$TOOL" == "import" ]]; then
-    if [[ -z "${1}" ]]; then
-        import -window root "$filepath" || exit 1
-    else
-        import "$filepath" || exit 1
-    fi
-elif [[ "$TOOL" == "scrot" ]]; then
-    if [[ -z "${1}" ]]; then
-        scrot "$filepath" || exit 1
-    else
-        scrot -s "$filepath" || exit 1  # lets user select a window or region
-    fi
+flags=()
+if [[ "$TOOL" == "import" ]] && [[ -z "${1}" ]]; then
+    flags=(-window root)
+elif [[ "$TOOL" == "scrot" ]] && [[ -n "${1}" ]]; then
+    flags=(--select)
 fi
+"$TOOL" "${flags[@]}" "$filepath" || exit 1
 
 notify-send "Screenshot Taken" "Saved as ${current} in ${HOME}"
 
