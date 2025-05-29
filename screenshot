@@ -1,16 +1,28 @@
 #!/usr/bin/env bash
 
 ### Full credit for this script to https://github.com/TheGassyNinja
-
 export DISPLAY=:0
 current=$(date +%H-%M-%S-%d-%m-%Y).png
+filepath="${HOME}/${current}"
 
-
-if [[ -z "${1}" ]]; then
-		import -window root "${HOME}/${current}" || exit 0 # If no argument, full screen (all monitors)
+# Determine screenshot utility
+if command -v import &> /dev/null; then
+    TOOL="import"
+elif command -v scrot &> /dev/null; then
+    TOOL="scrot"
 else
-		import "${HOME}/${current}" || exit 0 # Custom selection, or click a window
+    notify-send "Screenshot Tool Missing" "Neither ImageMagick (import) nor scrot is installed!"
+    echo "Error: No screenshot tool found (import or scrot)."
+    exit 1
 fi
 
+flags=()
+if [[ "$TOOL" == "import" ]] && [[ -z "${1}" ]]; then
+    flags=(-window root)
+elif [[ "$TOOL" == "scrot" ]] && [[ -n "${1}" ]]; then
+    flags=(--select)
+fi
+"$TOOL" "${flags[@]}" "$filepath" || exit 1
 
-notify-send "Screenshot ${current} taken successfully!"
+notify-send "Screenshot Taken" "Saved as ${current} in ${HOME}"
+
