@@ -1,18 +1,13 @@
 #!/bin/sh
 
 # Create a list of sinks with pretty names
-sinks=$(pactl list short sinks)
-options=$(echo "$sinks" | while read -r line; do
-    name=$(echo "$line" | awk '{print $2}')
-    description=$(pactl list sinks | grep -A 20 "$name" | grep "Description:" | head -n1 | cut -d ':' -f2- | sed 's/^ //')
-    echo "$description|||$name"
-done)
+options=$(pactl -f json list sinks | jq -r '.[] | .description')
 
 # Let the user select a description
-selection=$(echo "$options" | cut -d '|' -f1 | dmenu -i -l 5 -c -p "Output:")
+selection=$(echo "$options" | dmenu -i -l 5 -c -p "Output:")
 
 # Extract the corresponding sink name
-sink_name=$(echo "$options" | grep "^$selection" | cut -d '|' -f4)
+sink_name=$(pactl -f json list sinks | jq -r --arg sink_pretty_name "$selection" '.[] | select(.description == $sink_pretty_name) | .name')
 
 # Set the selected sink as default
 if [ -n "$sink_name" ]; then
