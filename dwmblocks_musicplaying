@@ -10,10 +10,14 @@ read FORMAT < "$FORMAT_FILE"
 
 # priority is: if browser or mpv are playing, they will display. otherwise, mpd displays, playing or paused.
 # browser and mpv should never display if paused.
-PLAYERS="chromium mpd mpv"
+if [ -z "$MUSIC_PLAYING_PLAYERS" ]; then
+	# if MUSIC_PLAYING_PLAYERS is not set, use the default players
+	MUSIC_PLAYING_PLAYERS="chromium mpd mpv"
+fi
+
 [ "$FORMAT" -eq 0 ] && META="{{ trunc(artist,17) }} - {{ trunc(title,17) }}" || META="{{ trunc(album,17) }} - {{ trunc(title,17) }}"
 
-for PLAYER in $PLAYERS; do
+for PLAYER in $MUSIC_PLAYING_PLAYERS; do
 # if the player is not playing, continue to the next player, until we find one that is playing
 	[ "$(playerctl --player=$PLAYER status 2>/dev/null)" != "Playing" ] && continue
 		ICON=" "
