@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
 
 # This is a menu-based script to consolidate and automate my photo processing workflow.
-# Replace dmenu with wmenu if on wayland.
-# TODO wmenu detection, more imgmgk commands, better cleanup of dttg
+# TODO wmenu/dmenu detection, replace notify cmd, more imgmgk cmds, better cleanup of dttg
 
 FOLDER=~/pics # global folder with subdirs to be listed
 WATERMARK=~/watermark.png
-
 NOTIFY_CMD=$(which dunstify || which notify-send) # Use dunstify if available, otherwise fall back to notify-send
+# MENU_CMD=$()
 
 transfer () {
 
@@ -104,9 +103,9 @@ viewfolder () { # quickview a folder in nsxiv
 }
 
 
-rmexif () { # exiftool's binary location may need to be explicitly called
+rmexif () { # exiftool's binary location may need to be explicitly called. check /usr/bin/vendor_perl 
 		PHOTODIR="$(echo "" | dmenu -c -p "󰉏 " <&-)" || exit 0
-		dunstify "Removing exif data in $PHOTODIR..." && /usr/bin/vendor_perl/exiftool -all= $PHOTODIR/*{png,jpg,jpeg} && dunstify "Exif data removed on png, jpg, and jpeg in $PHOTODIR!"
+		dunstify "Removing exif data in $PHOTODIR..." && exiftool -all= $PHOTODIR/*{png,jpg,jpeg} && dunstify "Exif data removed on png, jpg, and jpeg in $PHOTODIR!"
 }
 
 
@@ -117,7 +116,7 @@ checkexif () { # quickly check exif counts as a litmus test of whether a folder 
 						*) PHOTODIR=$FOLDER$CHOICE ;;
 				esac
 		dunstify -t 5000 "Fetching exif counts..."
-		dunstify -t 10000 "$(for f in $PHOTODIR/*; do echo $(/usr/bin/vendor_perl/exiftool "$f" | wc -l) $f; done)"
+		dunstify -t 10000 "$(for f in $PHOTODIR/*; do echo $(exiftool "$f" | wc -l) $f; done)"
 }
 
 
@@ -153,7 +152,7 @@ watermark () { # watermarks to a copied ".watermark" extension
 
 
 menu() {
-		CHOICE=$(printf " transfer photos\\n dt to gimp\\n󱞊 view folder\\n󰉒 open folder\\n󱔼 remove exif\\n󱕁 check exif\\n󰸭 cr2 to png\\n󰈥 png to jpg\\n󰶡 downscale\\n watermark\\n PLACEHOLDERS\\n BECAUSE\\n I WILL ADD \\n MORE IMAGEMAGICK\\n SCRIPTS\\n󰄄 darktable\\n gimp\\n ps" | dmenu -c -l 21 -i )
+		CHOICE=$(printf " transfer photos\\n dt to gimp\\n󱞊 view folder\\n󰉒 open folder\\n󱔼 remove exif\\n󱕁 check exif\\n󰸭 cr2 to png\\n󰈥 png to jpg\\n󰶡 downscale\\n watermark\\n PLACEHOLDERS\\n󰄄 darktable\\n gimp" | dmenu -c -l 21 -i )
 		case "$CHOICE" in
 				**) transfer ;;
 				**) dttg ;;
@@ -167,7 +166,6 @@ menu() {
 				**) watermark ;;
 				*󰄄*) darktable ;;
 				**) gimp ;;
-				**) dmenuphotoshop ;;
 		esac
 }
 
