@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
 
 # This is a menu-based script to consolidate and automate my photo processing workflow.
-# TODO more imgmgk cmds, better cleanup of dttg, better cleanup in general
+# TODO more imgmgk cmds, better cleanup of dttg
 
 FOLDER=~/pics # global folder with subdirs to be listed
 WATERMARK=~/watermark.png
-# Use dunstify if available, otherwise fall back to notify-send
-NOTIFYCMD=$(which dunstify || which notify-send) 
-MENUCMD=$(which wmenu || which dmenu)
+NOTIFYCMD=$(which dunstify 2>/dev/null || which notify-send 2>/dev/null) # use dunstify if available, otherwise notify-send
+MENUCMD=$(which wmenu 2>/dev/null || which dmenu 2>/dev/null) # use wmenu if available, otherwise dmenu
 
 transfer () {
-
 mount() { # Check if the card is mounted
 		[ -d /mnt/sdcard/DCIM/ ] || $NOTIFYCMD "Card not mounted."
 }
@@ -42,7 +40,6 @@ auto() { # Transfer photos from SD card into a directory for today's date
 		find /mnt/sdcard -type f -name "*.CR2" -exec mv -nv {} "$FOLDER$(date '+%b_%d')/" \; && postrun
 }
 
-
 case "$1" in
 		mount) mount ;;
 		unmount) unmount ;;
@@ -73,6 +70,7 @@ WHERE i.id IN (SELECT imgid FROM selected_images)
 LIMIT 1; 
 " || $NOTIFYCMD 'Open Darktable and select an image!' && exit 0) # use -readonly to avoid any risk of db corruption
 
+# TODO: handling of multiple exported pngs
 if [[ -e ${IMGPATH::-4}.png ]]; then
 		$NOTIFYCMD "Opening ${IMGPATH::-4}.png in GIMP."
 		gimp ${IMGPATH::-4}.png
@@ -93,6 +91,7 @@ openfolder () { # fuzzy find a folder to open in Darktable
 }
 
 
+# TODO: check for nsxiv vs another program
 viewfolder () { # quickview a folder in nsxiv
 		CHOICE=$(echo -e "TYPE PATH...\n$(command ls -t1 $FOLDER)" | $MENUCMD -c -l 10 -i -p "Folder: ") || exit 0
 				case $CHOICE in
@@ -145,7 +144,7 @@ downscale () { # copy and downscale filtered images in a dir by chosen %
 }
 
 
-watermark () { # watermarks to a copied ".watermark" extension
+watermark () { # watermarks to a copied ".watermark" extension, using defined $WATERMARK file
 		PHOTODIR="$(echo "" | $MENUCMD -c -p "󰉏 " <&-)" || exit 0
 		$NOTIFYCMD "Watermarking copies of all png, jpg, jpeg."
 		find $PHOTODIR -type f -iregex '.*\.\(png\|jpe\?g\)' -exec composite -compose multiply -gravity SouthWest -geometry +99+99 $WATERMARK {} {}.watermark \; && $NOTIFYCMD "Watermarked all images in $PHOTODIR."
