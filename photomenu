@@ -9,6 +9,8 @@ WATERMARK=~/watermark.png
 
 NOTIFY_CMD=$(which dunstify || which notify-send) # Use dunstify if available, otherwise fall back to notify-send
 
+transfer () {
+
 mount() { # Check if the card is mounted
 		[ -d /mnt/sdcard/DCIM/ ] || $NOTIFY_CMD "Card not mounted."
 }
