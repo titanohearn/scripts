@@ -8,7 +8,7 @@ WATERMARK=~/watermark.png
 NOTIFYCMD=$(which dunstify 2>/dev/null || which notify-send 2>/dev/null) # use dunstify if available, otherwise notify-send
 MENUCMD=$(which wmenu 2>/dev/null || which dmenu 2>/dev/null) # use wmenu if available, otherwise dmenu
 
-transfer () {
+transfer () { # pull photos from sd card into a folder for today's date
 mount() { # Check if the card is mounted
 		[ -d /mnt/sdcard/DCIM/ ] || $NOTIFYCMD "Card not mounted."
 }
