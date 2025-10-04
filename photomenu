@@ -150,9 +150,13 @@ watermark () { # watermarks to a copied ".watermark" extension, using defined $W
 		find $PHOTODIR -type f -iregex '.*\.\(png\|jpe\?g\)' -exec composite -compose multiply -gravity SouthWest -geometry +99+99 $WATERMARK {} {}.watermark \; && $NOTIFYCMD "Watermarked all images in $PHOTODIR."
 }
 
+focusdetect () { # checks whether images in a directory are in focus, and records paths of those which are not into a file. focusdetect.py is in this repo.
+		PHOTODIR="$(echo "" | dmenu -c -p "󰉏 " <&-)" || exit 0
+		python3 focusdetect.py $PHOTODIR || $NOTIFYCMD "focusdetect.py not found, is it in the same dir?"
+}
 
 menu() {
-		CHOICE=$(printf " transfer photos\\n dt to gimp\\n󱞊 view folder\\n󰉒 open folder\\n󱔼 remove exif\\n󱕁 check exif\\n󰸭 cr2 to png\\n󰈥 png to jpg\\n󰶡 downscale\\n watermark\\n PLACEHOLDERS\\n󰄄 darktable\\n gimp" | $MENUCMD -c -l 21 -i )
+		CHOICE=$(printf " transfer photos\\n dt to gimp\\n󱞊 view folder\\n󰉒 open folder\\n󱔼 remove exif\\n󱕁 check exif\\n󰸭 cr2 to png\\n󰈥 png to jpg\\n󰶡 downscale\\n watermark\\n󱡴 focus detect\\n PLACEHOLDERS\\n󰄄 darktable\\n gimp" | $MENUCMD -c -l 21 -i )
 		case "$CHOICE" in
 				**) transfer ;;
 				**) dttg ;;
@@ -164,6 +168,7 @@ menu() {
 				*󰈥*) convjpg ;;
 				*󰶡*) downscale ;;
 				**) watermark ;;
+				*󱡴*) focusdetect ;;
 				*󰄄*) darktable ;;
 				**) gimp ;;
 		esac
