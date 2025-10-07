@@ -43,6 +43,7 @@ write() { # write current clip into directory, txt or img
 sel() { # select from clip history and re-copy to clipboard
 		st -c fzfmenu -n fzfmenu -T fzf -g "100x12-260+270" -e dash -c "fzfub $FOLDER > $HIST/txt"
 		SELECTION=$(awk -v var="$FOLDER" '$0 ~ var {sub(".*" var, ""); print}' < $HIST/txt)
+		[[ -z $SELECTION ]] && exit 0
 		if [[ -n $(file -b --mime-type $FOLDER/$SELECTION | grep png) ]]; then 
 				xclip -i -selection clipboard -t image/png $FOLDER/$SELECTION && notify-send "reclipped img "
 		else echo ${SELECTION:1} | sed "s/$PLACEHOLDER/\n/g" | xclip -i -selection clipboard && notify-send "reclipped "
@@ -53,6 +54,7 @@ del() {
 		notify-send "select a clip to delete...!"
 		st -c fzfmenu -n fzfmenu -T fzf -g "100x12-260+270" -e dash -c "fzfub $HIST > $HIST/txt"
 		SELECTION=$(awk -v var="$FOLDER" '$0 ~ var {sub(".*" var, ""); print}' < $HIST/txt)
+		[[ -z $SELECTION ]] && exit 0
 		if [[ -n $(file -b --mime-type $HIST/$SELECTION | grep png) ]]; then 
 				rm $HIST/$SELECTION && notify-send "img clip deleted"
 		else rm $HIST/$(echo $SELECTION | sed "s/$PLACEHOLDER/\n/g") && notify-send "clip deleted"
