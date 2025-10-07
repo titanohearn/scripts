@@ -58,7 +58,7 @@ del() {
 		[[ -z $SELECTION ]] && exit 0
 		if [[ -n $(file -b --mime-type $HIST/$SELECTION | grep png) ]]; then 
 				rm $HIST/$SELECTION && notify-send "img clip deleted"
-		else rm $HIST/$(echo $SELECTION | sed "s/$PLACEHOLDER/\n/g") && notify-send "clip deleted"
+		else rm "$HIST/$(echo $SELECTION | sed "s/$PLACEHOLDER/\n/g")" && notify-send "clip deleted"
 		fi
 }
 
