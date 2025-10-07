@@ -7,6 +7,10 @@
 # png images only, since that's what xclip supports.
 # every clip is created as an empty file with touch (yes, I know)
 
+# it doubles as a select-to-clipboard menu for
+# any folder given, which can then be
+# bound as a shortcut: `cliphist add ~/myfolder`
+
 # bind `cliphist add` and `cliphist out` to shortcuts
 # to copy text, press your shortcut key for add,
 # to copy images, first copy normally, then run your shortcut key
@@ -14,50 +18,51 @@
 # if you're using dwm or similar, you may need to ensure that the
 # window class `fzfmenu` or title `fzf` has floating property
 
-hist="$HOME/.cache/hist/"
-placeholder="<NEWLINE>"
+HIST=~/.cache/hist
+PLACEHOLDER="<NEWLINE>"
+[[ -z $2 ]] && FOLDER=$HIST || FOLDER=$2
 
 output() { # copy directly from command output
-		clip=$(xclip -i -f -selection clipboard 2>/dev/null)
+		CLIP=$(xclip -i -f -selection clipboard 2>/dev/null)
 }
 
 write() { # write current clip into directory, txt or img
-		[ -e "$hist" ] || notify-send "Creating directory $hist..."; mkdir -p $hist
-		isimg=$(xclip -selection clipboard -o -t TARGETS | grep png)
+		[ -e "$HIST" ] || notify-send "Creating directory $HIST..."; mkdir -p $HIST
+		ISIMG=$(xclip -selection clipboard -o -t TARGETS | grep png)
 
-		if [[ -n $isimg ]]; then
-		   	xclip -selection clipboard -t image/png -o > $hist/$(date '+%a_%b%d_%H%M%S').png
+		if [[ -n $ISIMG ]]; then
+		   	xclip -selection clipboard -t image/png -o > $HIST/$(date '+%a_%b%d_%H%M%S').png
 		else
-				clip=$(xclip -o -selection primary | xclip -i -f -selection clipboard 2>/dev/null)
-				multiline=$(echo "$clip" | sed ':a;N;$!ba;s/\n/'"$placeholder"'/g')
-				touch "$hist/$multiline"
+				CLIP=$(xclip -o -selection primary | xclip -i -f -selection clipboard 2>/dev/null)
+				MULTILINE=$(echo "$CLIP" | sed ':a;N;$!ba;s/\n/'"$PLACEHOLDER"'/g')
+				touch "$HIST/$MULTILINE"
 		fi
 		notify-send " clipped"
 }
 
 sel() { # select from clip history and re-copy to clipboard
-		st -c fzfmenu -n fzfmenu -T fzf -g "100x12-260+270" -e dash -c "fzfub $hist > $hist/txt"
-		selection=$(\cat $hist/txt | sed 's/.*\.cache\/hist\///')
-		if [[ -n $(file -b --mime-type $hist/$selection | grep png) ]]; then 
-				xclip -selection clipboard -t image/png -i $hist/$selection && notify-send "reclipped img "
-		else echo $selection | sed "s/$placeholder/\n/g" | xclip -i -selection clipboard && notify-send "reclipped "
+		st -c fzfmenu -n fzfmenu -T fzf -g "100x12-260+270" -e dash -c "fzfub $FOLDER > $HIST/txt"
+		SELECTION=$(awk -v var="$FOLDER" '$0 ~ var {sub(".*" var, ""); print}' < $HIST/txt)
+		if [[ -n $(file -b --mime-type $FOLDER/$SELECTION | grep png) ]]; then 
+				xclip -i -selection clipboard -t image/png $FOLDER/$SELECTION && notify-send "reclipped img "
+		else echo ${SELECTION:1} | sed "s/$PLACEHOLDER/\n/g" | xclip -i -selection clipboard && notify-send "reclipped "
 		fi
 }
 
 del() {
 		notify-send "select a clip to delete...!"
-		st -c fzfmenu -n fzfmenu -T fzf -g "100x12-260+270" -e dash -c "fzfub $hist > $hist/txt"
-		selection=$(\cat $hist/txt | sed 's/.*\.cache\/hist\///')
-		if [[ -n $(file -b --mime-type $hist/$selection | grep png) ]]; then 
-				rm $hist/$selection && notify-send "img clip deleted"
-		else rm $hist/$(echo $selection | sed "s/$placeholder/\n/g") && notify-send "clip deleted"
+		st -c fzfmenu -n fzfmenu -T fzf -g "100x12-260+270" -e dash -c "fzfub $HIST > $HIST/txt"
+		SELECTION=$(awk -v var="$FOLDER" '$0 ~ var {sub(".*" var, ""); print}' < $HIST/txt)
+		if [[ -n $(file -b --mime-type $HIST/$SELECTION | grep png) ]]; then 
+				rm $HIST/$SELECTION && notify-send "img clip deleted"
+		else rm $HIST/$(echo $SELECTION | sed "s/$PLACEHOLDER/\n/g") && notify-send "clip deleted"
 		fi
 }
 
 case "$1" in
-		add) write ;;
-		out) output && write ;;
-		sel) sel ;;
-		del) del ;;
-		*) printf "$0 | File: $hist\n\nadd - copies primary selection to clipboard, and adds to history directory\nout - pipe commands to copy output to clipboard, and add to history directory\nsel - select from history file with fzf and recopy!\ndel - delete from history!\n" ; exit 0 ;;
+		add*) write ;;
+		out*) output && write ;;
+		sel*) sel ;;
+		del*) del ;;
+		*) printf "$0 | File: $HIST\n\nadd - copies primary selection to clipboard, and adds to history directory\nout - pipe commands to copy output to clipboard, and add to history directory\nsel - select from history file with fzf and recopy!\ndel - delete from history!\n" ; exit 0 ;;
 esac
