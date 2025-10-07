@@ -45,7 +45,7 @@ sel() { # select from clip history and re-copy to clipboard
 		SELECTION=$(awk -v var="$FOLDER" '$0 ~ var {sub(".*" var, ""); print}' < $HIST/txt)
 		[[ -z $SELECTION ]] && exit 0
 		if [[ -n $(file -b --mime-type $FOLDER/$SELECTION | grep png) ]]; then 
-				xclip -i -selection clipboard -t image/png $FOLDER/$SELECTION && notify-send "reclipped img "
+				xclip -i -selection clipboard -t image/png $FOLDER/$SELECTION && notify-send -i $FOLDER/$SELECTION "reclipped img "
 		else echo ${SELECTION:1} | sed "s/$PLACEHOLDER/\n/g" | xclip -i -selection clipboard && notify-send "reclipped "
 		fi
 }
