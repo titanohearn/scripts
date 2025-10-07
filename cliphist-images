@@ -39,16 +39,25 @@ sel() { # select from clip history and re-copy to clipboard
 		st -c fzfmenu -n fzfmenu -T fzf -g "100x12-260+270" -e dash -c "fzfub $hist > $hist/txt"
 		selection=$(\cat $hist/txt | sed 's/.*\.cache\/hist\///')
 		if [[ -n $(file -b --mime-type $hist/$selection | grep png) ]]; then 
-				xclip -selection clipboard -t image/png -i $hist/$selection
-		else echo $selection | sed "s/$placeholder/\n/g" | xclip -i -selection clipboard
+				xclip -selection clipboard -t image/png -i $hist/$selection && notify-send "reclipped img "
+		else echo $selection | sed "s/$placeholder/\n/g" | xclip -i -selection clipboard && notify-send "reclipped "
 		fi
-		notify-send "clipped "
+}
 
+del() {
+		notify-send "select a clip to delete...!"
+		st -c fzfmenu -n fzfmenu -T fzf -g "100x12-260+270" -e dash -c "fzfub $hist > $hist/txt"
+		selection=$(\cat $hist/txt | sed 's/.*\.cache\/hist\///')
+		if [[ -n $(file -b --mime-type $hist/$selection | grep png) ]]; then 
+				rm $hist/$selection && notify-send "img clip deleted"
+		else rm $hist/$(echo $selection | sed "s/$placeholder/\n/g") && notify-send "clip deleted"
+		fi
 }
 
 case "$1" in
 		add) write ;;
 		out) output && write ;;
 		sel) sel ;;
-		*) printf "$0 | File: $hist\n\nadd - copies primary selection to clipboard, and adds to history directory\nout - pipe commands to copy output to clipboard, and add to history directory\nsel - select from history file with fzf and recopy!\n" ; exit 0 ;;
+		del) del ;;
+		*) printf "$0 | File: $hist\n\nadd - copies primary selection to clipboard, and adds to history directory\nout - pipe commands to copy output to clipboard, and add to history directory\nsel - select from history file with fzf and recopy!\ndel - delete from history!\n" ; exit 0 ;;
 esac
