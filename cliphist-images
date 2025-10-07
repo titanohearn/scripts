@@ -31,7 +31,7 @@ write() { # write current clip into directory, txt or img
 		ISIMG=$(xclip -selection clipboard -o -t TARGETS | grep png)
 
 		if [[ -n $ISIMG ]]; then
-		   	xclip -selection clipboard -t image/png -o > $HIST/$(date '+%a_%b%d_%H%M%S').png
+		   	xclip -selection clipboard -t image/png -o > $HIST/$(date '+%a_%b%d%Y_%H%M%S').png
 		else
 				CLIP=$(xclip -o -selection primary | xclip -i -f -selection clipboard 2>/dev/null)
 				MULTILINE=$(echo "$CLIP" | sed ':a;N;$!ba;s/\n/'"$PLACEHOLDER"'/g')
