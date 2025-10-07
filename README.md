@@ -16,8 +16,8 @@
 ✏️ [dmenu notes manager](https://github.com/BreadOnPenguins/scripts/blob/master/dmenu_notes) \
 📎 [dmenu clipboard text history](https://github.com/BreadOnPenguins/scripts/blob/master/dmenu_cliphist) \
 🌡️ [dmenu temperature convert](https://github.com/BreadOnPenguins/scripts/blob/master/dmenu_tempconvert) \
-📼 [dmenu picker to play a video in mpv](https://github.com/BreadOnPenguins/scripts/blob/master/dmenu_mpv) \
-📖 [send definition of highlighted word as a notification](https://github.com/BreadOnPenguins/scripts/blob/master/define_word)
+📼 [dmenu picker for mpv](https://github.com/BreadOnPenguins/scripts/blob/master/dmenu_mpv) \
+📖 [define word as a notification](https://github.com/BreadOnPenguins/scripts/blob/master/define_word)
 #### audio-video
 📹 [video and screen recording](https://github.com/BreadOnPenguins/scripts/blob/master/record) \
 🎥 [ffmpeg recording editor](https://github.com/BreadOnPenguins/scripts/blob/master/edit_recording) \
