@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # this is beyond impractical
-# but it works..?
+# and has many bugs
 
 # clipboard history with images using fzf, ueberzugpp, and xclip.
 # png images only, since that's what xclip supports.
@@ -57,7 +57,7 @@ del() {
 		[[ -z $SELECTION ]] && exit 0
 		if [[ -n $(file -b --mime-type $HIST/$SELECTION | grep png) ]]; then 
 				rm $HIST/$SELECTION && notify-send "img clip deleted"
-		else rm "$HIST/$(echo $SELECTION | sed "s/$PLACEHOLDER/\n/g")" && notify-send "clip deleted"
+		else rm "$HIST/$(echo $SELECTION | sed -e "s/SLASHPL/\//g" -e "s/COLONPL/:/g" -e "s/NEWLINEPL/\n/g")" && notify-send "clip deleted"
 		fi
 }
 
