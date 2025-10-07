@@ -19,7 +19,7 @@
 # window class `fzfmenu` or title `fzf` has floating property
 
 HIST=~/.cache/hist
-PLACEHOLDER="<NEWLINE>"
+PLACEHOLDER="NEWLINE"
 [[ -z $2 ]] && FOLDER=$HIST || FOLDER=$2
 
 output() { # copy directly from command output
@@ -32,16 +32,17 @@ write() { # write current clip into directory, txt or img
 
 		if [[ -n $ISIMG ]]; then
 		   	xclip -selection clipboard -t image/png -o > $HIST/$(date '+%a_%b%d%Y_%H%M%S').png
+			notify-send -i "$HIST/$(date '+%a_%b%d%Y_%H%M%S').png" " clipped img"
 		else
 				CLIP=$(xclip -o -selection primary | xclip -i -f -selection clipboard 2>/dev/null)
 				MULTILINE=$(echo "$CLIP" | sed ':a;N;$!ba;s/\n/'"$PLACEHOLDER"'/g')
 				touch "$HIST/$MULTILINE"
+				notify-send " $MULTILINE"
 		fi
-		notify-send " clipped"
 }
 
 sel() { # select from clip history and re-copy to clipboard
-		st -c fzfmenu -n fzfmenu -T fzf -g "100x12-260+270" -e dash -c "fzfub $FOLDER > $HIST/txt"
+		st -c fzfmenu -n fzfmenu -T fzf -g "105x12-270+270" -e dash -c "fzfub $FOLDER > $HIST/txt"
 		SELECTION=$(awk -v var="$FOLDER" '$0 ~ var {sub(".*" var, ""); print}' < $HIST/txt)
 		[[ -z $SELECTION ]] && exit 0
 		if [[ -n $(file -b --mime-type $FOLDER/$SELECTION | grep png) ]]; then 
@@ -52,7 +53,7 @@ sel() { # select from clip history and re-copy to clipboard
 
 del() {
 		notify-send "select a clip to delete...!"
-		st -c fzfmenu -n fzfmenu -T fzf -g "100x12-260+270" -e dash -c "fzfub $HIST > $HIST/txt"
+		st -c fzfmenu -n fzfmenu -T fzf -g "105x12-270+270" -e dash -c "fzfub $HIST > $HIST/txt"
 		SELECTION=$(awk -v var="$FOLDER" '$0 ~ var {sub(".*" var, ""); print}' < $HIST/txt)
 		[[ -z $SELECTION ]] && exit 0
 		if [[ -n $(file -b --mime-type $HIST/$SELECTION | grep png) ]]; then 
