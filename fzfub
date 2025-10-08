@@ -34,8 +34,8 @@ case $2 in
 				ILABEL="[ᴄᴛʀʟ: 𝐣·ᴊᴘɢ 𝐩·ᴘɴɢ 𝐝·ᴅᴇʟ 𝐬·sᴄᴀʟᴇ 𝐛·ʙ&ᴡ 𝐰·ᴡᴛʀᴍᴀʀᴋ"
 				LABEL="𝐠·➡ɢɪᴍᴘ 𝐭·ᴛʀᴀɴsᴘᴀʀᴇɴᴛ 𝐟/𝐯·ғʟɪᴘ 𝐥·ʙʟᴋ 𝐡·ᴡʜᴛᴇ ʙᴏʀᴅʀ]" ;;
 		*c) # cliphist options
-				ILABEL="ᴄʟɪᴘʜɪsᴛ"
-				LABEL="[ᴇɴᴛᴇʀ/ᴄᴛʀʟ-c: ᴄᴏᴘʏ | ᴄᴛʀʟ-t: ᴛᴏ ᴛʀᴀɴsᴘᴀʀᴇɴᴛ ʙɢ | ᴄᴛʀʟ-g: ᴇᴅɪᴛ ɪɴ ɢɪᴍᴘ | ᴄᴛʀʟ-d: ᴅᴇʟᴇᴛᴇ]"
+				ILABEL="ᴄʟɪᴘʜɪsᴛ: ᴇɴᴛᴇʀ/ᴄᴛʀʟ-c: ᴄᴏᴘʏ"
+				LABEL="[ᴄᴛʀʟ g: ᴇᴅɪᴛ ɪɴ ɢɪᴍᴘ | d: ᴅᴇʟ | t: ᴛᴏ ᴛʀᴀɴsᴘᴀʀᴇɴᴛ]"
 				FZFARGS='enter:execute(cliphist copy {}),ctrl-c:execute(cliphist copy {}),ctrl-t:execute-silent(imgmgk transparencyrecopy {+}),ctrl-g:become(gimp {+} > /dev/null 2>&1),ctrl-d:execute(rm {} && notify-send {} deleted)' ;;	
 		*) FZFARGS='ctrl-d:execute(rm -i {} && notify-send {} deleted)' ;; # normal options
 esac
