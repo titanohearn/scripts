@@ -50,21 +50,9 @@ sel() { # select from clip history and re-copy to clipboard
 		fi
 }
 
-del() {
-		notify-send "select a clip to delete...!"
-		st -c fzfmenu -n fzfmenu -T fzf -g "105x12-270+270" -e dash -c "fzfub $HIST > $HIST/txt"
-		SELECTION=$(awk -v var="$FOLDER" '$0 ~ var {sub(".*" var, ""); print}' < $HIST/txt)
-		[[ -z $SELECTION ]] && exit 0
-		if [[ -n $(file -b --mime-type $HIST/$SELECTION | grep png) ]]; then 
-				rm $HIST/$SELECTION && notify-send "img clip deleted"
-		else rm "$HIST/$(echo $SELECTION | sed -e "s/SLASHPL/\//g" -e "s/COLONPL/:/g" -e "s/NEWLINEPL/\n/g")" && notify-send "clip deleted"
-		fi
-}
-
 case "$1" in
 		add*) write ;;
 		out*) output && write ;;
 		sel*) sel ;;
-		del*) del ;;
-		*) printf "$0 | File: $HIST\n\nadd - copies primary selection to clipboard, and adds to history directory\nout - pipe commands to copy output to clipboard, and add to history directory\nsel - select from history file with fzf and recopy!\ndel - delete from history!\n" ; exit 0 ;;
+		*) printf "$0 | File: $HIST\n\nadd - copies primary selection to clipboard, and adds to history directory\nout - pipe commands to copy output to clipboard, and add to history directory\nsel - select from history file with fzf and recopy!\n" ; exit 0 ;;
 esac
