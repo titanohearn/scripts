@@ -1,12 +1,16 @@
 #!/usr/bin/env bash
 
 # This is a menu-based script to consolidate and automate my photo processing workflow.
-# TODO more imgmgk cmds, better cleanup of dttg
+# TODO better cleanup of dttg
 
 FOLDER=~/pics # global folder with subdirs to be listed
-WATERMARK=~/watermark.png
+WATERMARK=~/pics/watermark.png
 NOTIFYCMD=$(which dunstify 2>/dev/null || which notify-send 2>/dev/null) # use dunstify if available, otherwise notify-send
 MENUCMD=$(which wmenu 2>/dev/null || which dmenu 2>/dev/null) # use wmenu if available, otherwise dmenu
+
+fzimgmgk() { # requires fzfub + imgmgk script (in this repo). if you aren't using st, switch shell+parameters
+		st -c fzfmenu -n fzfmenu -T fzf -g "105x12-270+270" -e fzfub $FOLDER m || exit 0
+}
 
 transfer() { # pull photos from sd card into a folder for today's date
 mount() { # Check if the card is mounted
@@ -156,8 +160,9 @@ focusdetect() { # checks whether images in a directory are in focus, and records
 }
 
 menu() {
-		CHOICE=$(printf " transfer photos\\n dt to gimp\\n󱞊 view folder\\n󰉒 open folder\\n󱔼 remove exif\\n󱕁 check exif\\n󰸭 cr2 to png\\n󰈥 png to jpg\\n󰶡 downscale\\n watermark\\n󱡴 focus detect\\n PLACEHOLDERS\\n󰄄 darktable\\n gimp" | $MENUCMD -c -l 21 -i )
+		CHOICE=$(printf " imgmgk\\n transfer photos\\n dt to gimp\\n󱞊 view folder\\n󰉒 open folder\\n󱔼 remove exif\\n󱕁 check exif\\n󰸭 cr2 to png\\n󰈥 png to jpg\\n󰶡 downscale\\n watermark\\n󱡴 focus detect\\n PLACEHOLDERS\\n󰄄 darktable\\n gimp" | $MENUCMD -c -l 21 -i )
 		case "$CHOICE" in
+				**) fzimgmgk ;;
 				**) transfer ;;
 				**) dttg ;;
 				*󱞊*) viewfolder ;;
