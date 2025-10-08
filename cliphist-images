@@ -15,7 +15,11 @@
 # in theory, saving text clips IN files
 # would be possible if there were a way to get
 # different previews for different filetypes.
-# fzfub wrapper is the limiting factor on that
+# fzfub wrapper is the limiting factor on that:
+# normal fzfpreview would allow for different
+# filetypes, but because fzfub is a wrapper,
+# I have yet to find a way to make it work.
+# I'm sure it's possible though.
 
 # st is hardcoded but could be swapped
 # just update parameters accordingly
