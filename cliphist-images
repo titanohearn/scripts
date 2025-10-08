@@ -1,13 +1,25 @@
 #!/usr/bin/env bash
 
-# this is beyond impractical
-# and has many bugs
+# clipboard history with images using fzf, ueberzugpp wrapper, and xclip.
 
-# clipboard history with images using fzf, ueberzugpp, and xclip.
-# png images only, since that's what xclip supports.
-# every clip is created as an empty file with touch (yes, I know)
+# this is beyond impractical and has many bugs.
+# it is an exercise in what is possible to do,
+# rather than what should be done...
 
-# it doubles as a select-to-clipboard menu for
+# text clips are created as empty files
+# with the clip as the TITLE (yes, I know)
+# thus, there are placeholders swapped in 
+# for characters like ":" in text clips.
+
+# in theory, saving text clips IN files
+# would be possible if there were a way to get
+# different previews for different filetypes.
+# fzfub wrapper is the limiting factor on that
+
+# st is hardcoded right now but could be swapped
+# my version of the fzfub script is in this repo
+
+# this doubles as a select-to-clipboard menu for
 # any folder given, which can then be
 # bound as a shortcut: `cliphist add ~/myfolder`
 
