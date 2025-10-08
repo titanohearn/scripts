@@ -7,7 +7,8 @@
 # possible to achieve with the given tools.
 
 # text clips are created as empty files
-# with the clip as the TITLE (yes, I know)
+# with the clip as the FILENAME 
+# (yes, I know: see next paragraph)
 # thus, there are placeholders swapped in 
 # for characters like ":" in text clips.
 
@@ -16,13 +17,14 @@
 # different previews for different filetypes.
 # fzfub wrapper is the limiting factor on that
 
-# st is hardcoded right now but could be swapped
-# my version of the fzfub script is in this repo
+# st is hardcoded but could be swapped
+# just update parameters accordingly
+# my version of fzfub is in this repo
 # with bindings for copy, delete, etc.
 
-# this doubles as a select-to-clipboard menu for
-# any folder given, which can then be
-# bound as a shortcut: `cliphist add ~/myfolder`
+# this doubles as a select-to-clipboard menu
+# for any folder given, which can then be
+# bound as a shortcut: `cliphist sel ~/folder`
 
 # bind `cliphist add` and `cliphist sel` to shortcuts
 # to copy text, press your shortcut key for add,
@@ -47,7 +49,7 @@ write() { # write current clip into directory, txt or img
 			notify-send -i "$HIST/$(date '+%a_%b%d%Y_%H%M%S').png" " clipped img"
 		else
 				CLIP=$(xclip -o -selection primary | xclip -i -f -selection clipboard 2>/dev/null)
-				MULTILINE=$(echo "$CLIP" | sed  -e 's/\//'"SLASHPL"'/g' -e 's/\:/'"COLONPL"'/g' -e ':a;N;$!ba;s/\n/'"NEWLINEPL"'/g')
+				MULTILINE=$(echo "$CLIP" | sed -e 's/\ /'"SPACEPL"'/g' -e 's/\//'"SLASHPL"'/g' -e 's/\:/'"COLONPL"'/g' -e ':a;N;$!ba;s/\n/'"NEWLINEPL"'/g')
 				touch "$HIST/$MULTILINE"
 				notify-send " $MULTILINE"
 		fi
@@ -64,7 +66,7 @@ copy() { # my fzfub script has ctrl-c and enter bound to copy
 				xclip -i -selection clipboard -t image/png "$SELECTION" && notify-send -i $SELECTION "reclipped img "
 		else 
 				notify-send  $(basename $SELECTION)
-				basename $SELECTION | sed -e "s/SLASHPL/\//g" -e "s/COLONPL/:/g" -e "s/NEWLINEPL/\n/g" | xclip -i -selection clipboard
+				basename $SELECTION | sed -e "s/SPACEPL/\ /g" -e "s/SLASHPL/\//g" -e "s/COLONPL/:/g" -e "s/NEWLINEPL/\n/g" | xclip -i -selection clipboard
 		fi
 }
 
