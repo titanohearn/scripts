@@ -3,8 +3,8 @@
 # clipboard history with images using fzf, ueberzugpp wrapper, and xclip.
 
 # this is beyond impractical and has many bugs.
-# it is an exercise in what is possible to do,
-# rather than what should be done...
+# it's an exercise in whether this was
+# possible to achieve with the given tools.
 
 # text clips are created as empty files
 # with the clip as the TITLE (yes, I know)
