@@ -8,7 +8,7 @@ WATERMARK=~/watermark.png
 NOTIFYCMD=$(which dunstify 2>/dev/null || which notify-send 2>/dev/null) # use dunstify if available, otherwise notify-send
 MENUCMD=$(which wmenu 2>/dev/null || which dmenu 2>/dev/null) # use wmenu if available, otherwise dmenu
 
-transfer () { # pull photos from sd card into a folder for today's date
+transfer() { # pull photos from sd card into a folder for today's date
 mount() { # Check if the card is mounted
 		[ -d /mnt/sdcard/DCIM/ ] || $NOTIFYCMD "Card not mounted."
 }
@@ -120,14 +120,14 @@ checkexif () { # quickly check exif counts as a litmus test of whether a folder 
 }
 
 
-convpng () { # copy cr2 to png
+convpng() { # copy cr2 to png
 		PHOTODIR="$(echo "" | $MENUCMD -c -p "󰉏 " <&-)" || exit 0
 		$NOTIFYCMD "Copying all cr2 to png in $PHOTODIR/pics..."
 		mkdir -p $PHOTODIR/png && mogrify -path $PHOTODIR/png -format png $PHOTODIR/*.CR2 && $NOTIFYCMD "Copied all cr2 to png in $PHOTODIR/png."
 }
 
 
-convjpg () { # convert png to jpg, overwriting orignal png
+convjpg() { # convert png to jpg, overwriting orignal png
 		$NOTIFYCMD -u critical -t 5000 "will modify ORIGINAL images (esc to quit)"
 		PHOTODIR="$(echo "" | $MENUCMD -c -p "󰉏 " <&-)" || exit 0
 		$NOTIFYCMD "Converting all png to jpg in $PHOTODIR..."
@@ -135,7 +135,7 @@ convjpg () { # convert png to jpg, overwriting orignal png
 }
 
 
-downscale () { # copy and downscale filtered images in a dir by chosen %
+downscale() { # copy and downscale filtered images in a dir by chosen %
 		PHOTODIR="$(echo "" | $MENUCMD -c -p "󰉏 " <&-)" || exit 0
 		SIZE="$(echo "" | $MENUCMD -c -p " images over size M? " <&-)" || exit 0
 		SCALE="$(echo "" | $MENUCMD -c -p " scale %: " <&-)" || exit 0
@@ -144,13 +144,13 @@ downscale () { # copy and downscale filtered images in a dir by chosen %
 }
 
 
-watermark () { # watermarks to a copied ".watermark" extension, using defined $WATERMARK file
+watermark() { # watermarks to a copied ".watermark" extension, using defined $WATERMARK file
 		PHOTODIR="$(echo "" | $MENUCMD -c -p "󰉏 " <&-)" || exit 0
 		$NOTIFYCMD "Watermarking copies of all png, jpg, jpeg."
 		find $PHOTODIR -type f -iregex '.*\.\(png\|jpe\?g\)' -exec composite -compose multiply -gravity SouthWest -geometry +99+99 $WATERMARK {} {}.watermark \; && $NOTIFYCMD "Watermarked all images in $PHOTODIR."
 }
 
-focusdetect () { # checks whether images in a directory are in focus, and records paths of those which are not into a file. focusdetect.py is in this repo.
+focusdetect() { # checks whether images in a directory are in focus, and records paths of those which are not into a file. focusdetect.py is in this repo.
 		PHOTODIR="$(echo "" | dmenu -c -p "󰉏 " <&-)" || exit 0
 		python3 focusdetect.py $PHOTODIR || $NOTIFYCMD "focusdetect.py not found, is it in the same dir?"
 }
