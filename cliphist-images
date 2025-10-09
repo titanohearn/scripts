@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-# clipboard history with images using fzf, ueberzugpp wrapper, and xclip.
+########################################
+# clipboard history with text+image support: fzf+ueberzugpp wrapper, xclip.
 
 # this is beyond impractical and has many bugs.
 # it's an exercise in whether this was
@@ -13,13 +14,9 @@
 # for characters like ":" in text clips.
 
 # in theory, saving text clips IN files
-# would be possible if there were a way to get
-# different previews for different filetypes.
-# fzfub wrapper is the limiting factor on that:
-# normal fzfpreview would allow for different
-# filetypes, but because fzfub is a wrapper,
-# I have yet to find a way to make it work.
-# I'm sure it's possible though.
+# would be possible with:
+# - search through files (ie. fzf+ripgrep)
+# - non-image previews integrated to fzfub
 
 # st is hardcoded but could be swapped
 # just update parameters accordingly
@@ -35,6 +32,8 @@
 # to copy images, first copy normally, then run your shortcut key
 # if you're using dwm or similar, you may need to ensure that the
 # window class `fzfmenu` or title `fzf` has floating property
+########################################
+
 
 HIST=~/.cache/hist
 
