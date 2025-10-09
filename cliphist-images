@@ -58,6 +58,11 @@ write() { # write current clip into directory, txt or img
 		fi
 }
 
+link() {
+		wget -q "$2" -P $HIST && notify-send " img saved"
+}
+
+
 sel() { # select from clip history and re-copy to clipboard
 		[[ -z $2 ]] && FOLDER=$HIST || FOLDER=$2
 		st -f 'Liberation Mono:pixelsize=27' -c fzfmenu -n fzfmenu -T fzf -g "105x12-100+270" -e fzfub $FOLDER c --tac
@@ -76,6 +81,7 @@ copy() { # my fzfub script has ctrl-c and enter bound to copy
 case "$1" in
 		add*) write "$@" ;;
 		out*) output && write "$@" ;;
+		link*) link "$@" ;;
 		sel*) sel "$@" ;;
 		copy*) copy "$@" ;;
 		*) printf "$0 | File: $HIST\n\nadd - copies primary selection to clipboard, and adds to history directory\nout - pipe commands to copy output to clipboard, and add to history directory\nsel - fzfub through history dir\ncopy - recopy, bound in fzfub\n" ; exit 0 ;;
