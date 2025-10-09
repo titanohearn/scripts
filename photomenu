@@ -9,7 +9,7 @@ NOTIFYCMD=$(which dunstify 2>/dev/null || which notify-send 2>/dev/null) # use d
 MENUCMD=$(which wmenu 2>/dev/null || which dmenu 2>/dev/null) # use wmenu if available, otherwise dmenu
 
 fzimgmgk() { # requires fzfub + imgmgk script (in this repo). if you aren't using st, switch shell+parameters
-		st -c fzfmenu -n fzfmenu -T fzf -g "105x12-270+270" -e fzfub $FOLDER m || exit 0
+	st -f 'Liberation Mono:pixelsize=27' -c fzfmenu -n fzfmenu -T fzf -g "105x12-100+270" -e fzfub $FOLDER m || exit 0
 }
 
 transfer() { # pull photos from sd card into a folder for today's date
