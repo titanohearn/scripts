@@ -1,0 +1,1 @@
+st -f 'Liberation Mono:pixelsize=27' -c fzfmenu -n fzfmenu -T fzf -g "105x12-100+270" -e fzfub ~/pics m || exit 0
