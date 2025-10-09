@@ -26,7 +26,7 @@ export SOCKET="$UEBERZUG_TMP_DIR"/ueberzugpp-"$UB_PID".socket
 
 case $2 in
 		*w) # wallpapermenu options
-				FZFARGS='ctrl-t:execute-silent(wallpapermenu {} tendency),ctrl-f:execute-silent(wallpapermenu {} flare),ctrl-d:execute-silent(wallpapermenu {} dim),ctrl-g:execute-silent(wallpapermenu {} grove),ctrl-w:execute-silent(wallpapermenu {})'
+				FZFARGS='ctrl-t:execute-silent(wallpapermenu {} tendency),ctrl-f:execute-silent(wallpapermenu {} flare),ctrl-d:execute-silent(wallpapermenu {} dim),ctrl-g:execute-silent(wallpapermenu {} grove),ctrl-w:execute-silent(wallpapermenu {}),ctrl-e:become(gimp {+} > /dev/null 2>&1)'
 				ILABEL='·.·★⋆⁺₊⋆·.·★⋆⁺₊⋆𝖜𝖆𝖑𝖑𝖕𝖆𝖕𝖊𝖗 𝖒𝖊𝖓𝖚⋆⁺₊⋆★·.·⋆⁺₊⋆★·.·'
 				LABEL='[ᴄᴛʀʟ 𝐰·ᴘʏᴡᴀʟ 𝐝·ᴅɪᴍ 𝐟·ғʟᴀʀᴇ 𝐠·ɢʀᴏᴠᴇ 𝐭·ᴛᴇɴᴅᴇɴᴄʏ]' ;;
 		*m) # ₊⊹ɪᴍɢᴍɢᴋ⊹₊ options --> reloading doesn't work rn but maybe it's possible..?
