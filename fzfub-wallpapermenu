@@ -16,7 +16,7 @@ PW16SCRIPT=~/scripts/pywal16 # pywal16 post-run script
 TEMPIMG=~/pics/wallpaper/temp # save as a temporary image for restoration on restart and such
 
 case "$#" in
-		0) st -c fzfmenu -n fzfmenu -T fzf -g "105x12-270+270" -e fzfub $WPFOLDER w || exit 0 ;;
+		0) st -f 'Liberation Mono:pixelsize=27' -c fzfmenu -n fzfmenu -T fzf -g "105x12-100+270" -e fzfub $WPFOLDER w || exit 0 ;;
 		1) wal -i "$1" -o $PW16SCRIPT && ln -sf "$1" $TEMPIMG > /dev/null 2>&1 ;;
 		2) wal -i "$1" --theme "$2" -o $PW16SCRIPT && ln -sf "$1" $TEMPIMG > /dev/null 2>&1 ;;
 		*) exit 0 ;;
