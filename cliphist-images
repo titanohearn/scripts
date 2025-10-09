@@ -60,7 +60,7 @@ write() { # write current clip into directory, txt or img
 
 sel() { # select from clip history and re-copy to clipboard
 		[[ -z $2 ]] && FOLDER=$HIST || FOLDER=$2
-		st -c fzfmenu -n fzfmenu -T fzf -g "105x12-270+270" -e fzfub $FOLDER c --tac
+		st -f 'Liberation Mono:pixelsize=27' -c fzfmenu -n fzfmenu -T fzf -g "105x12-100+270" -e fzfub $FOLDER c --tac
 }
 
 copy() { # my fzfub script has ctrl-c and enter bound to copy
