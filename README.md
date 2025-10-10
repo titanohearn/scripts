@@ -6,7 +6,7 @@
 🖇️ [image clipboard history](https://github.com/BreadOnPenguins/scripts/blob/master/images-photos-wallpapers/imgcliphist) \
 🖼️ [screenshot and colorpicker](https://github.com/BreadOnPenguins/scripts/blob/master/images-photos-wallpapers/screenshot) \
 🌠 [wallpaper picker: nsxiv » pywal](https://github.com/BreadOnPenguins/scripts/blob/master/images-photos-wallpapers/wallpapermenu) \
-🌃 [wallpaper picker: fzfub » pywal](https://github.com/BreadOnPenguins/scripts/blob/masterimages-photos-wallpapers/fzfub-wallpapermenu) \
+🌃 [wallpaper picker: fzfub » pywal](https://github.com/BreadOnPenguins/scripts/blob/master/images-photos-wallpapers/fzfub-wallpapermenu) \
 🎞️ [detect out of focus images](https://github.com/BreadOnPenguins/scripts/blob/master/images-photos-wallpapers/focusdetect.py) \
 🐛 [my version of fzfub](https://github.com/BreadOnPenguins/scripts/blob/master/images-photos-wallpapers/fzfub)
 #### statusbar
