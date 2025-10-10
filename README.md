@@ -30,4 +30,4 @@
 #### shell
 🌛 [cronjob display dimmer / night mode](https://github.com/BreadOnPenguins/scripts/blob/master/shell/dimmer) \
 🌪️ [xephyr setup](https://github.com/BreadOnPenguins/scripts/blob/master/shell/xephyr) \
-⛈️ [quickcheck system stats](https://github.com/BreadOnPenguins/scripts/blob/master/shell/stats) \
+⛈️ [quickcheck system stats](https://github.com/BreadOnPenguins/scripts/blob/master/shell/stats)
