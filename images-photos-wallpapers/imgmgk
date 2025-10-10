@@ -4,11 +4,14 @@
 # use with photomenu and/or my version of
 # fzfub as an image quick-edit menu!
 
+# TODO fix watermark scale factor
+
 WATERMARK=~/pics/watermark.png
 NOTIFYCMD=$(which dunstify 2>/dev/null || which notify-send 2>/dev/null) # dunstify if available, otherwise notify-send
 
 watermark() { for IMG in $@; do
-		    	composite -compose multiply -gravity SouthWest -geometry +99+99 $WATERMARK $IMG "${IMG}.watermark" && $NOTIFYCMD "Watermarked $IMG."
+		    	# composite -compose multiply -gravity SouthWest -geometry +99+99 $WATERMARK $IMG "${IMG}.watermark" && $NOTIFYCMD "Watermarked $IMG."
+				composite -compose overlay -gravity center -dissolve 40% $WATERMARK $IMG "${IMG}.watermark" && $NOTIFYCMD "Watermarked $IMG."
 		done ;}
 
 convpng() { for IMG in $@; do
@@ -20,11 +23,15 @@ convjpg() { for IMG in $@; do
 
 border() { for IMG in $@; do
 		magick $IMG -bordercolor black -border 50x50 "$IMG.border" && $NOTIFYCMD "Added black border to $IMG."
-		done ;}
+		done ;} # this does not crop the image: it adds a border externally
 
 wborder() { for IMG in $@; do
 		magick $IMG -bordercolor white -border 50x50 "$IMG.border" && $NOTIFYCMD "Added white border to $IMG."
-		done ;}
+		done ;} # this does not crop the image: it adds a border externally
+
+cropborder() { for IMG in $@; do
+		magick $IMG -fill black -stroke none -draw "rectangle 0,0 %[fx:w],%[fx:h*0.05] rectangle 0,0 %[fx:w*0.05],%[fx:h] rectangle %[fx:w-w*0.05],0 %[fx:w],%[fx:h] rectangle 0,%[fx:h-h*0.05] %[fx:w],%[fx:h]" "$IMG.cropborder" && $NOTIFYCMD "Cropped+bordered $IMG."
+		done ;} # this crops the image: it adds a border internally
 
 bw() { for IMG in $@; do
 		magick $IMG -colorspace Gray "$IMG.bw" && $NOTIFYCMD "B&W'd $IMG."
@@ -69,6 +76,9 @@ case $1 in
 		wborder)
 				shift
 				wborder "$@" ;;
+		cropborder)
+				shift
+				cropborder "$@" ;;
 		bw)
 				shift
 				bw "$@" ;;
