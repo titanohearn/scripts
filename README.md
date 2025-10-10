@@ -1,13 +1,13 @@
 #### my scripts! <sub>disclaimer: may not work as expected, or at all :^)</sub>
 ##### categorized list is a WIP.
 #### images-photos-wallpapers
-📸 [menu of photo editing options](https://github.com/BreadOnPenguins/scripts/blob/master/photomenu) \
-🪄 [my imagemagick presets](https://github.com/BreadOnPenguins/scripts/blob/master/imgmgk) \
-🖇️ [image clipboard history](https://github.com/BreadOnPenguins/scripts/blob/master/imgcliphist) \
-🖼️ [screenshot and colorpicker](https://github.com/BreadOnPenguins/scripts/blob/master/screenshot_extra_features) \
-🌠 [wallpaper picker: nsxiv » pywal](https://github.com/BreadOnPenguins/scripts/blob/master/wallpapermenu) \
-🌃 [wallpaper picker: fzfub » pywal](https://github.com/BreadOnPenguins/scripts/blob/master/fzfub-wallpapermenu) \
-🐛 [my version of fzfub](https://github.com/BreadOnPenguins/scripts/blob/master/fzfub)
+📸 [menu of photo editing options](https://github.com/BreadOnPenguins/scripts/blob/master/images-photos-wallpapers/photomenu) \
+🪄 [my imagemagick presets](https://github.com/BreadOnPenguins/scripts/blob/master/images-photos-wallpapers/imgmgk) \
+🖇️ [image clipboard history](https://github.com/BreadOnPenguins/scripts/blob/master/images-photos-wallpapers/imgcliphist) \
+🖼️ [screenshot and colorpicker](https://github.com/BreadOnPenguins/scripts/blob/master/images-photos-wallpapers/screenshot) \
+🌠 [wallpaper picker: nsxiv » pywal](https://github.com/BreadOnPenguins/scripts/blob/master/images-photos-wallpapers/wallpapermenu) \
+🌃 [wallpaper picker: fzfub » pywal](https://github.com/BreadOnPenguins/scripts/blob/masterimages-photos-wallpapers/fzfub-wallpapermenu) \
+🐛 [my version of fzfub](https://github.com/BreadOnPenguins/scripts/blob/master/images-photos-wallpapers/fzfub)
 #### statusbar
 🎵 [music now-playing](https://github.com/BreadOnPenguins/scripts/blob/master/dwmblocks_musicplaying) \
 💾 [storage and disk stats](https://github.com/BreadOnPenguins/scripts/blob/master/dwmblocks_disks) \
