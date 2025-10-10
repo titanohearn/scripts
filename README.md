@@ -3,7 +3,7 @@
 #### images-photos-wallpapers
 📸 [menu of photo editing options](https://github.com/BreadOnPenguins/scripts/blob/master/photomenu) \
 🪄 [my imagemagick presets](https://github.com/BreadOnPenguins/scripts/blob/master/imgmgk) \
-🖇️ [clipboard history + image support](https://github.com/BreadOnPenguins/scripts/blob/master/cliphist-images) \
+🖇️ [image clipboard history](https://github.com/BreadOnPenguins/scripts/blob/master/imgcliphist) \
 🖼️ [screenshot and colorpicker](https://github.com/BreadOnPenguins/scripts/blob/master/screenshot_extra_features) \
 🌠 [wallpaper picker: nsxiv » pywal](https://github.com/BreadOnPenguins/scripts/blob/master/wallpapermenu) \
 🌃 [wallpaper picker: fzfub » pywal](https://github.com/BreadOnPenguins/scripts/blob/master/fzfub-wallpapermenu) \
