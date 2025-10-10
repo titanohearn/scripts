@@ -12,7 +12,7 @@
 #### statusbar
 🎵 [music now-playing](https://github.com/BreadOnPenguins/scripts/blob/master/statusbar/musicplaying) \
 💾 [storage and disk stats](https://github.com/BreadOnPenguins/scripts/blob/master/statusbar/disks) \
-🐏 [system stats (cpu, ram, etc)](https://github.com/BreadOnPenguins/scripts/blob/master/statusbar/ystemstats) \
+🐏 [system stats (cpu, ram, etc)](https://github.com/BreadOnPenguins/scripts/blob/master/statusbar/systemstats) \
 ⏲️ [dmenu quick timer](https://github.com/BreadOnPenguins/scripts/blob/master/statusbar/timer) \
 🕰️ [basic timedate](https://github.com/BreadOnPenguins/scripts/blob/master/statusbar/timedate)
 #### shortcuts-menus
