@@ -31,7 +31,7 @@ case $2 in
 				LABEL='[ᴄᴛʀʟ 𝐰·ᴘʏᴡᴀʟ 𝐝·ᴅɪᴍ 𝐟·ғʟᴀʀᴇ 𝐠·ɢʀᴏᴠᴇ 𝐭·ᴛᴇɴᴅᴇɴᴄʏ]' ;;
 		*m) # ₊⊹ɪᴍɢᴍɢᴋ⊹₊ options
 				FZFARGS='ctrl-r:become(fzfubrefresh {}),ctrl-e:execute-silent(imgmgk stripexif {}),alt-j:execute-silent(imgmgk jpg {}),alt-p:execute-silent(imgmgk png {}),ctrl-d:execute(rm -i {} && notify-send {} deleted),ctrl-s:execute-silent(imgmgk scale {+}),ctrl-b:execute-silent(imgmgk bw {+}),ctrl-w:execute-silent(imgmgk wm {+}),ctrl-g:become(gimp {+} > /dev/null 2>&1),ctrl-t:execute-silent(imgmgk transparency {+}),ctrl-f:execute-silent(imgmgk flip {+}),ctrl-v:execute-silent(imgmgk vflip {+}),ctrl-l:execute-silent(imgmgk border {+}),ctrl-h:execute-silent(imgmgk wborder {+})'
-				ILABEL="[ᴄᴛʀʟ: 𝐣·ᴊᴘɢ 𝐩·ᴘɴɢ 𝐝·ᴅᴇʟ 𝐬·sᴄᴀʟᴇ 𝐛·ʙ&ᴡ 𝐰·ᴡᴛʀᴍᴀʀᴋ"
+				ILABEL="[ᴀʟᴛ: 𝐣·ᴊᴘɢ 𝐩·ᴘɴɢ | ᴄᴛʀʟ: 𝐝·ᴅᴇʟ 𝐞·ᴇxɪғ 𝐛·ʙ&ᴡ 𝐰·ᴡᴛʀᴍᴀʀᴋ"
 				LABEL="𝐠·➡ɢɪᴍᴘ 𝐭·ᴛʀᴀɴsᴘᴀʀᴇɴᴛ 𝐟/𝐯·ғʟɪᴘ 𝐥·ʙʟᴋ 𝐡·ᴡʜᴛᴇ ʙᴏʀᴅʀ]" ;;
 		*c) # cliphist options
 				ILABEL="ᴄʟɪᴘʜɪsᴛ: ᴇɴᴛᴇʀ/ᴄᴛʀʟ-c: ᴄᴏᴘʏ"
