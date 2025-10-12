@@ -3,3 +3,4 @@
 
 file="$(mpc listall | dmenu -i -l 1)" || exit 0
 notify-send "Playing $file" && mpc insert "$file" && mpc next >/dev/null
+pkill -RTMIN+6 dwmblocks
