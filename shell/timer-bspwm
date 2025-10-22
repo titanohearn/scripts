@@ -1,0 +1,29 @@
+#!/bin/bash
+
+SEC=0
+MINUTES=0
+menu() {
+	MINUTES=$(rofi -dmenu -p 'Minutes');
+	SEC=$((MINUTES * 60));
+}
+
+timer() {
+	dunstify -u low "Timer has started"
+
+	tempFile="/tmp/$(date +%Y-%m-%d)"
+
+	for i in $(seq $SEC -1 0)
+	do
+		sleep 1;
+		echo $i &> $tempFile
+	done
+
+	echo $MINUTES >> $HOME/pomodoro/$(date +%Y-%m-%d).txt
+
+	dunstify -u critical "Timer is up!"
+	exit 0;
+}
+
+
+menu;
+timer;
