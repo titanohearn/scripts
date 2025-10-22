@@ -1,0 +1,8 @@
+#!/bin/bash
+
+query=$(find ~mike/MOVIES -type f | sed 's!/home/mike/MOVIES/!!' | awk -F'|' '$1 ~ /.*(mp4|mkv|flv)/ {print $1}' | rofi -dmenu -p 'Watch Movie')
+
+if [ -n "$query" ]; then
+	vlc "$HOME/MOVIES/$query" &> /dev/null
+fi
+

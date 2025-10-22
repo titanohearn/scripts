@@ -1,0 +1,7 @@
+#!/bin/bash
+
+query=$(find ~mike/Books -name *.pdf | rofi -dmenu -p 'Books')
+
+if [ -n "$query" ]; then
+	zathura "$query"
+fi
